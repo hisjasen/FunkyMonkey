@@ -1,0 +1,61 @@
+﻿<div class="funkymonkey-modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Filter Modal</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Area</label>
+                        <select multiple="multiple" class="form-control" size="8"
+                                ng-model="modalCtrl.selectedOptions.area"
+                                ng-options="opt.label for opt in modalCtrl.options.area track by opt.value"
+                                ng-change="modalCtrl.areaChanged()"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.recap.area}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select multiple="multiple" class="form-control" size="4"
+                                ng-model="modalCtrl.selectedOptions.sales.type"
+                                ng-options="opt.label for opt in modalCtrl.options.sales.type track by opt.value"
+                                ng-change="modalCtrl.typeChanged()"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.selectedOptions.sales.type}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>SubType</label>
+                        <select multiple="multiple" class="form-control" size="6"
+                                ng-model="modalCtrl.selectedOptions.sales.subType"
+                                ng-options="opt.label for opt in modalCtrl.options.sales.subType track by opt.value"
+                                ng-change="modalCtrl.subTypeChanged()"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.selectedOptions.sales.subType}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.recap.salesCombined}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="modalCtrl.close()">Close</button>
+        <button class="btn btn-default" ng-click="modalCtrl.save()">Save</button>
+    </div>
+</div>
+

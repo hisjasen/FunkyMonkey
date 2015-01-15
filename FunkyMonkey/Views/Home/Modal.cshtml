@@ -1,0 +1,69 @@
+﻿<div class="funkymonkey-modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Hai Gais Modal</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Gais</label>
+                        <select multiple="multiple" class="form-control"
+                                ng-model="modalCtrl.selectedGais"
+                                ng-options="opt.value for opt in modalCtrl.options.gais"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.selectedGais}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="toggle">
+                        <input type="checkbox" data-target="moarGaisSection"
+                               ng-model="modalCtrl.form.themGais.enabled"
+                               ng-change="modalCtrl.themGaisToggled()" /> Them Gais
+                    </label>
+                    <div class="form-group">
+                        <fieldset class="moarGaisSection" ng-disabled="!modalCtrl.form.themGais.enabled">
+                        <label>Moar Gais</label>
+                        <select multiple="multiple" class="form-control" size="1"
+                                ng-model="modalCtrl.form.themGais.selectedMoarGais">
+                            <option ng-repeat="opt in modalCtrl.options.moargais"
+                                    ng-selected="modalCtrl.isSelected(opt.key)"
+                                    value="{{::opt.key}}" data-sort="{{::opt.sort}}">
+                                {{::opt.value}}
+                            </option>
+                        </select>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.form.themGais.selectedMoarGais}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Moar Gais</label>
+                        <select multiple="multiple" class="form-control"
+                                ng-model="modalCtrl.form.themGais.selectedSommoarGais">
+                            <option ng-repeat="opt in modalCtrl.options.evenmoar.sommoargais"
+                                    ng-selected=""
+                                    value="{{::opt.key}}" data-sort="{{::opt.sort}}">
+                                {{::opt.value}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="funkymonkey-label">{{modalCtrl.form.themGais.selectedSommoarGais}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="modalCtrl.close()">Close</button>
+    </div>
+</div>
+
