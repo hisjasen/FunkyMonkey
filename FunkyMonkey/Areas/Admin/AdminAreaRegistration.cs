@@ -14,12 +14,12 @@ namespace FunkyMonkey.Areas.Admin
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            context.MapRoute(
-                "AdminApplicationOverride",
-                "FunkyMonkey/Admin/{*.}",
-                new { controller = "Home", action = "Index" },
-                new string[] { "FunkyMonkey.Areas.Admin.Controllers" }
-            );
+            //context.MapRoute(
+            //    "AdminApplicationOverride",
+            //    "FunkyMonkey/Admin/{*.}",
+            //    new { controller = "Home", action = "Index" },
+            //    new string[] { "FunkyMonkey.Areas.Admin.Controllers" }
+            //);
 
             context.MapRoute(
                 "Admin_default",

@@ -27,6 +27,11 @@ namespace FunkyMonkey.Controllers
             return View();
         }
 
+        public ActionResult LandingPage()
+        {
+            return PartialView();
+        }
+
         public ActionResult Modal()
         {
             return PartialView();

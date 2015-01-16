@@ -3,6 +3,8 @@
     angular.module("funkymonkey.controllers")
         .controller("HomeController", ["$modal","$http", function ($modal, $http)
         {
+            console.log("HomeController");
+
             this.options = [
                 { "value": "A", "label": "Alice" },
                 { "value": "B", "label": "Burt" },
