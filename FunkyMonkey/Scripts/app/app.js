@@ -12,24 +12,31 @@
         "funkymonkey.filters"
     ]);
 
-    app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider)
+    app.config(["$logProvider", "$stateProvider", "$urlRouterProvider", function ($logProvider, $stateProvider, $urlRouterProvider)
     {
         console.log("app config");
-
-        this.title = "Some Randome Quote";
-
+        
         $urlRouterProvider.otherwise('/home');
 
         $stateProvider.state("root", {
             url: "",
             abstract: true,
-            onEnter: [function ()
-            {
-                console.log("root");
-            }]
+            onEnter: function () { console.log("root"); },
+            resolve: [
+                "$timeout", "Session", "LoginService",
+                function ($timeout, Session, LoginService)
+                {
+                    console.log("root resolve");
+                    return $timeout(function ()
+                    {
+                        return LoginService.login();
+                    }, 2000);
+                }
+            ]
         });
 
         $stateProvider.state("root.home", {
+            parent: "root",
             url: "/home",
             views: {
                 "contentContainer@": {
@@ -40,13 +47,11 @@
             data: {
                 title: "Home"  
             },
-            onEnter: [function ()
-            {
-                console.log("root.home");
-            }]
+            onEnter: function () { console.log("root.home"); }
         });
 
         $stateProvider.state("root.admin", {
+            parent: "root",
             url: "/admin/home",
             views: {
                 "contentContainer@": {
@@ -57,10 +62,19 @@
             data: {
                 title: "Admin"
             },
-            onEnter: [function ()
-            {
-                console.log("root.admin");
-            }]
+            onEnter: function () { console.log("root.admin"); }
+        });
+
+        $stateProvider.state("root.peons", {
+            parent: "root",
+            url: "/peons/home",
+            views: {
+                "contentContainer@": {
+                    templateUrl: "/FunkyMonkey/Peons/Home/Index",
+                    controller: function () { }
+                }
+            },
+            onEnter: function () { console.log("root.peons"); }
         });
     }]);
 

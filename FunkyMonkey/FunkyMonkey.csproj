@@ -112,10 +112,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Peons\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Peons\PeonsAreaRegistration.cs" />
+    <Compile Include="Common\PeonService.cs" />
+    <Compile Include="Common\PeonStore.cs" />
+    <Compile Include="Common\PeonStore.Populate.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DomainModels\Peon.cs" />
+    <Compile Include="Models\DomainModels\UserOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,15 +153,22 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home\LandingPage.cshtml" />
+    <Content Include="Areas\Peons\Views\web.config" />
+    <Content Include="Areas\Peons\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Peons\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Peons\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\FilterModalController.js" />
     <Content Include="Scripts\app\FilterOptions.js" />
     <Content Include="Scripts\app\filters\AreaFilters.js" />
+    <Content Include="Scripts\app\filters\UserOptionService.js" />
     <Content Include="Scripts\app\HomeController.js" />
     <Content Include="Scripts\app\ModalController.js" />
     <Content Include="Scripts\app\ModalOptions.js" />
+    <Content Include="Scripts\app\PeonService.js" />
+    <Content Include="Scripts\app\Session.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -193,7 +207,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Peons\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

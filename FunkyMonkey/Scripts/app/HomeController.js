@@ -1,35 +1,29 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.controllers")
-        .controller("HomeController", ["$modal","$http", function ($modal, $http)
+        .controller("HomeController", ["$modal", "$http", "$timeout", "Session", "UserOptionService", "LoginService",
+        function ($modal, $http, $timeout, Session, UserOptionService, LoginService)
         {
             console.log("HomeController");
 
-            this.options = [
-                { "value": "A", "label": "Alice" },
-                { "value": "B", "label": "Burt" },
-                { "value": "C", "label": "Charlie" }
-            ];
-            this.foo = [{ "value": "C", "label": "Charlie" }];
+            var _this = this;
+            this.date = null;
+            this.doIt = doIt;
 
-            this.showModal = function (event)
+            //$timeout(function ()
+            //{
+            //    LoginService.login().then(function ()
+            //    {
+            //        _this.doIt();
+            //    });
+            //}, 2000);
+
+            this.doIt();
+
+            function doIt()
             {
-                var modalInstance = $modal.open({
-                    templateUrl: "/FunkyMonkey/Home/Modal",
-                    controller: "ModalController as modalCtrl",
-                    size: null,
-                    resolve: {}
-                });
-            };
-            
-            this.showFilterModal = function (event)
-            {
-                var modalInstance = $modal.open({
-                    templateUrl: "/FunkyMonkey/Home/FilterModal",
-                    controller: "FilterModalController as modalCtrl",
-                    size: null,
-                    resolve: {}
-                });
+                console.log("doIt", Session.userOption.date);
+                _this.date = Session.userOption.date;
             };
         }]);
 })();
