@@ -163,7 +163,9 @@
     <Content Include="Scripts\app\FilterModalController.js" />
     <Content Include="Scripts\app\FilterOptions.js" />
     <Content Include="Scripts\app\filters\AreaFilters.js" />
-    <Content Include="Scripts\app\filters\UserOptionService.js" />
+    <Content Include="Scripts\app\filters\jsonDate.js" />
+    <Content Include="Scripts\app\LoginService.js" />
+    <Content Include="Scripts\app\UserOptionService.js" />
     <Content Include="Scripts\app\HomeController.js" />
     <Content Include="Scripts\app\ModalController.js" />
     <Content Include="Scripts\app\ModalOptions.js" />
