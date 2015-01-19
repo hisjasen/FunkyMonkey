@@ -10,14 +10,6 @@
             this.date = null;
             this.doIt = doIt;
 
-            //$timeout(function ()
-            //{
-            //    LoginService.login().then(function ()
-            //    {
-            //        _this.doIt();
-            //    });
-            //}, 2000);
-
             this.doIt();
 
             function doIt()

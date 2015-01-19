@@ -20,7 +20,10 @@ namespace FunkyMonkey
                 .Include("~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app")
-                .IncludeDirectory("~/Scripts/app", "*.js", searchSubdirectories: true));
+                .Include("~/Scripts/app/app.js")
+                .IncludeDirectory("~/Scripts/app/controllers", "*.js", searchSubdirectories: true)
+                .IncludeDirectory("~/Scripts/app/services", "*.js", searchSubdirectories: true)
+                .IncludeDirectory("~/Scripts/app/filters", "*.js", searchSubdirectories: true));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

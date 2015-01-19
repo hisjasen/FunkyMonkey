@@ -40,6 +40,9 @@ namespace FunkyMonkey.Controllers
             {
                 Session["UserOption"] = new UserOption { Date = DateTime.Now, Rank = 2 };
             }
+
+            System.Threading.Thread.Sleep(2000);
+
             return Json(userOption, JsonRequestBehavior.AllowGet);
         }
     }

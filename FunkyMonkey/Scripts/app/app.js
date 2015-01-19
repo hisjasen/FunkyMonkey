@@ -27,10 +27,7 @@
                 function ($timeout, Session, LoginService)
                 {
                     console.log("root resolve");
-                    return $timeout(function ()
-                    {
-                        return LoginService.login();
-                    }, 2000);
+                    return LoginService.login();
                 }
             ]
         });
@@ -56,7 +53,7 @@
             views: {
                 "contentContainer@": {
                     templateUrl: "/FunkyMonkey/Admin/Home/Index",
-                    controller: function () { }
+                    controller: "AdminController as adminController"
                 }
             },
             data: {
@@ -71,7 +68,7 @@
             views: {
                 "contentContainer@": {
                     templateUrl: "/FunkyMonkey/Peons/Home/Index",
-                    controller: function () { }
+                    controller: "PeonController as peonController"
                 }
             },
             onEnter: function () { console.log("root.peons"); }
