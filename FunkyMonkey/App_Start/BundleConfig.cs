@@ -16,6 +16,7 @@ namespace FunkyMonkey
 
             bundles.Add(new ScriptBundle("~/bundles/angular")
                 .Include("~/Scripts/angular.js")
+                .Include("~/Scripts/angular-sanitize.js")
                 .Include("~/Scripts/angular-ui-router.js")
                 .Include("~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
 
@@ -23,7 +24,8 @@ namespace FunkyMonkey
                 .Include("~/Scripts/app/app.js")
                 .IncludeDirectory("~/Scripts/app/controllers", "*.js", searchSubdirectories: true)
                 .IncludeDirectory("~/Scripts/app/services", "*.js", searchSubdirectories: true)
-                .IncludeDirectory("~/Scripts/app/filters", "*.js", searchSubdirectories: true));
+                .IncludeDirectory("~/Scripts/app/filters", "*.js", searchSubdirectories: true)
+                .Include("~/Scripts/app/appStart.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

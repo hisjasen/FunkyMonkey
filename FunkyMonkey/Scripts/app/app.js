@@ -5,6 +5,7 @@
     angular.module("funkymonkey.filters", []);
 
     var app = angular.module("funkymonkey.app", [
+        "ngSanitize",
         "ui.router",
         "ui.bootstrap",
         "funkymonkey.services",
@@ -12,24 +13,18 @@
         "funkymonkey.filters"
     ]);
 
-    app.config(["$logProvider", "$stateProvider", "$urlRouterProvider", function ($logProvider, $stateProvider, $urlRouterProvider)
+    app.config(["$logProvider", "$stateProvider", "$urlRouterProvider", "AppConfig",
+    function ($logProvider, $stateProvider, $urlRouterProvider, AppConfig)
     {
         console.log("app config");
-        
+        AppConfig.site = "FOO";
+
         $urlRouterProvider.otherwise('/home');
 
         $stateProvider.state("root", {
             url: "",
             abstract: true,
-            onEnter: function () { console.log("root"); },
-            resolve: [
-                "$timeout", "Session", "LoginService",
-                function ($timeout, Session, LoginService)
-                {
-                    console.log("root resolve");
-                    return LoginService.login();
-                }
-            ]
+            onEnter: function () { console.log("root"); }
         });
 
         $stateProvider.state("root.home", {
@@ -73,11 +68,17 @@
             },
             onEnter: function () { console.log("root.peons"); }
         });
-    }]);
 
-    app.run(["$rootScope", "$state", "$stateParams", function ($rootScope, $state, $stateParams)
+        console.log("AppConfig", AppConfig);
+    }]);
+    
+    app.run(["$rootScope", "$state", "$stateParams", "AppConfig", "Session",
+    function ($rootScope, $state, $stateParams, AppConfig, Session)
     {
-        console.log("app run");
+        console.log("app run", AppConfig);
+        Session.create(AppConfig.userOption.Rank, AppConfig.userOption.Date);
+        console.log("SESSION", Session, AppConfig.userOption);
+
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 

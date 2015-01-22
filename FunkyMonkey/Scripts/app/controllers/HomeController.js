@@ -1,10 +1,11 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.controllers")
-        .controller("HomeController", ["$modal", "$http", "$timeout", "Session", "UserOptionService", "LoginService",
-        function ($modal, $http, $timeout, Session, UserOptionService, LoginService)
+        .controller("HomeController", ["$modal", "$http", "$timeout", "Session", "UserOptionService", "LoginService", "$sanitize",
+        function ($modal, $http, $timeout, Session, UserOptionService, LoginService, $sanitize)
         {
-            console.log("HomeController");
+            var foo = $sanitize("some string");
+            console.log("HomeController", foo);
 
             var _this = this;
             this.date = null;
@@ -14,7 +15,7 @@
 
             function doIt()
             {
-                console.log("doIt", Session.userOption.date);
+                console.log("doIt", Session);
                 _this.date = Session.userOption.date;
             };
         }]);

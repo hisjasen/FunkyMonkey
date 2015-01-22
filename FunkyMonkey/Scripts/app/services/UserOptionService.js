@@ -4,6 +4,7 @@
         .factory("UserOptionService", ["$http", "$q", "$rootScope", function ($http, $q, $rootScope)
         {
             var OPTIONS_LOADED = "optionsLoaded";
+            var LOAD_FAILED = "loadFailed";
 
             var svc = {
                 loadOptions: loadOptions,
@@ -24,6 +25,11 @@
                 {
                     deferred.resolve(userOption);
                     $rootScope.$broadcast(OPTIONS_LOADED);
+                })
+                .error(function (data, status, headers, config)
+                {
+                    deferred.resolve(data);
+                    $rootScope.$broadcast(LOAD_FAILED);
                 });
 
                 return deferred.promise;
@@ -36,5 +42,13 @@
                     handler(message);
                 });
             };
+
+            function onLoadFailed(scope, handler)
+            {
+                scope.$on(LOAD_FAILED, function (event, message)
+                {
+                    handler(message);
+                });
+            }
         }]);
 })();

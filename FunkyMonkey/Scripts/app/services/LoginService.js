@@ -1,8 +1,8 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.services")
-        .factory("LoginService", ["$q", "$rootScope", "Session", "UserOptionService",
-        function ($q, $rootScope, Session, UserOptionService)
+        .factory("LoginService", ["$q", "$rootScope", "UserOptionService",
+        function ($q, $rootScope, UserOptionService)
         {
             var LOGIN_SUCCESS = "loginSuccess";
 
@@ -20,7 +20,7 @@
                 var userOptions = UserOptionService.loadOptions().then(function (userOptionResult)
                 {
                     console.log("login:loadOptions", userOptionResult);
-                    Session.create(userOptionResult.Rank, userOptionResult.Date);
+                    
                     deferred.resolve(userOptionResult);
                 },
                 function (reason)
