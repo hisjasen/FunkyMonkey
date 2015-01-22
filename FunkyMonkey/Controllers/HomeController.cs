@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FunkyMonkey.Models.DomainModels;
 
 namespace FunkyMonkey.Controllers
 {
@@ -27,14 +28,22 @@ namespace FunkyMonkey.Controllers
             return View();
         }
 
-        public ActionResult Modal()
+        public ActionResult LandingPage()
         {
             return PartialView();
         }
 
-        public ActionResult FilterModal()
+        public ActionResult GetUserOption()
         {
-            return PartialView();
+            var userOption = Session["UserOption"] as UserOption;
+            if (userOption == null)
+            {
+                Session["UserOption"] = new UserOption { Date = DateTime.Now, Rank = 2 };
+            }
+
+            System.Threading.Thread.Sleep(2000);
+
+            return Json(userOption, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -11,7 +11,12 @@ namespace FunkyMonkey.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
+        }
+
+        public ActionResult LandingPage()
+        {
+            return PartialView();
         }
     }
 }
