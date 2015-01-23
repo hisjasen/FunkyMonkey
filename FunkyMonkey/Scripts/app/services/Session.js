@@ -1,7 +1,7 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.services")
-        .provider("Session", [function ()
+        .provider("Session", [function SessionProvider()
         {
             // from config
             this.userOption = {
@@ -32,8 +32,8 @@
                     {
                         _this.userOption = userOption;
                     },
-                    userOption: this.userOption,
-                    guid: this.guid
+                    userOption: _this.userOption,
+                    guid: _this.guid
                 };
             };
         }]);

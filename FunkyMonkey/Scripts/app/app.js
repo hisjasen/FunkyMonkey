@@ -6,18 +6,23 @@
 
     var app = angular.module("funkymonkey.app", [
         "ngSanitize",
+        "ngCookies",
         "ui.router",
         "ui.bootstrap",
+        "ct.ui.router.extras",
         "funkymonkey.services",
         "funkymonkey.controllers",
         "funkymonkey.filters"
     ]);
 
-    app.config(["$logProvider", "$stateProvider", "$urlRouterProvider", "AppConfig",
-    function ($logProvider, $stateProvider, $urlRouterProvider, AppConfig)
+    app.config(["$logProvider", "$stateProvider", "$stickyStateProvider", "$urlRouterProvider", "AppConfig", "SessionProvider",
+    function ($logProvider, $stateProvider, $stickyStateProvider, $urlRouterProvider, AppConfig, SessionProvider)
     {
         console.log("app config");
         AppConfig.site = "FOO";
+        SessionProvider.userOption.date = AppConfig.userOption.Date;
+        SessionProvider.userOption.rank = AppConfig.userOption.Rank;
+        //SessionProvider.create(AppConfig.userOption.Rank, AppConfig.userOption.Date);
 
         $urlRouterProvider.otherwise('/home');
 
@@ -72,12 +77,12 @@
         console.log("AppConfig", AppConfig);
     }]);
     
-    app.run(["$rootScope", "$state", "$stateParams", "AppConfig", "Session",
-    function ($rootScope, $state, $stateParams, AppConfig, Session)
+    app.run(["$rootScope", "$state", "$stateParams", "AppConfig", 
+    function ($rootScope, $state, $stateParams, AppConfig)
     {
         console.log("app run", AppConfig);
-        Session.create(AppConfig.userOption.Rank, AppConfig.userOption.Date);
-        console.log("SESSION", Session, AppConfig.userOption);
+
+        // Setting Session here may be too late
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

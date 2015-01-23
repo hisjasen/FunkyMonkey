@@ -5,6 +5,12 @@
         function ($q, $rootScope, UserOptionService)
         {
             var LOGIN_SUCCESS = "loginSuccess";
+            var injector = angular.injector(["ngCookies"]);
+            var cookies = injector.get("$cookies");
+            var cookieStore = injector.get("$cookieStore");
+            var site = cookies.RE_SITE;
+            var user = cookies.REUSER.split("&");
+            console.log("SITE", site, user);
 
             var svc = {
                 login: login

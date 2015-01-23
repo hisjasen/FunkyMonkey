@@ -18,7 +18,9 @@ namespace FunkyMonkey
                 .Include("~/Scripts/angular.js")
                 .Include("~/Scripts/angular-sanitize.js")
                 .Include("~/Scripts/angular-ui-router.js")
-                .Include("~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
+                .Include("~/Scripts/angular-cookies.js")
+                .Include("~/Scripts/angular-ui/ui-bootstrap-tpls.js")
+                .Include("~/Scripts/ui-router-extras/ct-ui-router-extras.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/Scripts/app/app.js")

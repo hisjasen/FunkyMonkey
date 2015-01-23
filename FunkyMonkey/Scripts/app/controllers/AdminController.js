@@ -1,8 +1,8 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.controllers")
-        .controller("AdminController", ["Session", "LoginService", "UserOptionService",
-        function (Session, LoginService, UserOptionService)
+        .controller("AdminController", ["Session", "UserOptionService",
+        function (Session, UserOptionService)
         {
             this.date = Session.userOption.date;
         }]);

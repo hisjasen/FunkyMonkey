@@ -1,8 +1,8 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.controllers")
-        .controller("HomeController", ["$modal", "$http", "$timeout", "Session", "UserOptionService", "LoginService", "$sanitize",
-        function ($modal, $http, $timeout, Session, UserOptionService, LoginService, $sanitize)
+        .controller("HomeController", ["$modal", "$http", "Session", "UserOptionService", "$sanitize",
+        function ($modal, $http, Session, UserOptionService, $sanitize)
         {
             var foo = $sanitize("some string");
             console.log("HomeController", foo);
