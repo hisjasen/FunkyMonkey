@@ -45,5 +45,10 @@ namespace FunkyMonkey.Controllers
 
             return Json(userOption, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult FailedToStart()
+        {
+            return View("Error");
+        }
     }
 }

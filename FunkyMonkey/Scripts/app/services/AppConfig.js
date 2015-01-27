@@ -4,7 +4,9 @@
         .constant("AppConfig", {
             guid: Date.now(),
             userOption: {},
-            site: "HIS"
+            site: "HIS",
+            valid: false,
+            errorMsg: "n/a"
         });
 
 })();

@@ -2,7 +2,11 @@
 {
     var app = angular.module("funkymonkey.app");
     
-    appInitialize().then(bootstrapApplication);
+    try {
+        appInitialize().then(bootstrapApplication);
+    } catch (exeception) {
+        window.location.href = "//localhost/funkymonkey/home/failedToStart";
+    }
 
     function appInitialize()
     {
@@ -15,10 +19,14 @@
         return LoginService.login().then(function (result)
         {
             AppConfig.userOption = result;
+            AppConfig.valid = true;
+            AppConfig.errorMsg = "";
             console.log("appStart login", AppConfig);
         },
         function (error)
         {
+            AppConfig.valid = false;
+            AppConfig.errorMsg = error;
             console.log(error);
         });
     };

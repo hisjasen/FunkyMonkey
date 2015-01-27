@@ -130,6 +130,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dropzone-4.0.0\basic.css" />
+    <Content Include="Content\dropzone-4.0.0\basic.min.css" />
+    <Content Include="Content\dropzone-4.0.0\dropzone.css" />
+    <Content Include="Content\dropzone-4.0.0\dropzone.min.css" />
+    <Content Include="Content\jcrop\Jcrop.gif" />
+    <Content Include="Content\jcrop\jquery.Jcrop.css" />
+    <Content Include="Content\jcrop\jquery.Jcrop.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -183,6 +190,11 @@
     <Content Include="Scripts\app\services\Session.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dropzone-4.0.0\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone-4.0.0\dropzone.js" />
+    <Content Include="Scripts\dropzone-4.0.0\dropzone.min.js" />
+    <Content Include="Scripts\jcrop\jquery.Jcrop.js" />
+    <Content Include="Scripts\jcrop\jquery.Jcrop.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />

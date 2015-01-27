@@ -34,13 +34,19 @@ namespace FunkyMonkey
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+            bundles.Add(new ScriptBundle("~/bundles/lib")
+                .Include("~/Scripts/bootstrap.js")
+                .Include("~/Scripts/respond.js")
+                .Include("~/Scripts/jcrop/jquery.jcrop.js")
+                .Include("~/Scripts/dropzone-4.0.0/dropzone.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css")
+                .Include("~/Content/bootstrap.css")
+                .Include("~/Content/dropzone-4.0.0/dropzone.css")
+                .Include("~/Content/dropzone-4.0.0/basic.css")
+                .Include("~/Content/jcrop/jquery.jcrop.css")
+                .Include("~/Content/site.css")
+            );
 
 #if (DEBUG)
             // Set EnableOptimizations to false for debugging. For more information,
