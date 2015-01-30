@@ -8,13 +8,26 @@
 
         <div class="row">
             <div class="col-md-12">
-                @using (Ajax.BeginForm(actionName: "Edit", controllerName: "Home", routeValues: new { area = "Sycophants" },
-                    ajaxOptions: new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }, htmlAttributes: new { @id="peonForm" }))
+                @using (Ajax.BeginForm(actionName: "EditJson", controllerName: "Home", routeValues: new { area = "Sycophants" },
+                    ajaxOptions: new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }, htmlAttributes: new { @id="peonFormJson" }))
                 {
-                    <input type="text" id="id" name="id" value="42" />
+                    <input type="text" name="id" value="42" />
                     <button>Submit</button>
                 }
                 <div id="foo"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 well">
+                <p></p>
+                <div id="peonDiv">
+                @using (Ajax.BeginForm(actionName: "Edit", controllerName: "Home", routeValues: new { area = "Sycophants" },
+                    ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "peonDiv" }, htmlAttributes: new { enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="file" id="imgInp" />
+                    <input type="submit" value="OK" />
+                }
+                </div>
             </div>
         </div>
         <div class="row">

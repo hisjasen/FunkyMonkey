@@ -25,9 +25,16 @@ namespace FunkyMonkey.Areas.Sycophants.Controllers
         }
 
         [HttpPost]
-        public JsonResult Edit(int id)
+        public JsonResult EditJson(int id)
         {
             return Json(new { success = true, id = id });
+        }
+
+        [HttpPost]
+        public PartialViewResult Edit(HttpPostedFileBase file)
+        {
+            //ViewBag.Filename = file.FileName;
+            return PartialView("_EditResponse");
         }
     }
 }

@@ -179,6 +179,7 @@
     <Content Include="Areas\Sycophants\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Sycophants\Views\Home\Index.cshtml" />
     <Content Include="Areas\Peons\Views\Home\DropzoneTemplate.cshtml" />
+    <Content Include="Areas\Sycophants\Views\Home\_EditResponse.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\app\appStart.js" />
     <Content Include="Scripts\app\controllers\AdminController.js" />
