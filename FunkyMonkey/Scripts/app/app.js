@@ -3,6 +3,7 @@
     angular.module("funkymonkey.services", []);
     angular.module("funkymonkey.controllers", ["ui.bootstrap"]);
     angular.module("funkymonkey.filters", []);
+    angular.module("funkymonkey.directives", []);
 
     var app = angular.module("funkymonkey.app", [
         "ngSanitize",
@@ -12,7 +13,8 @@
         "ct.ui.router.extras",
         "funkymonkey.services",
         "funkymonkey.controllers",
-        "funkymonkey.filters"
+        "funkymonkey.filters",
+        "funkymonkey.directives"
     ]);
 
     app.config(["$logProvider", "$stateProvider", "$stickyStateProvider", "$urlRouterProvider", "AppConfig", "SessionProvider",

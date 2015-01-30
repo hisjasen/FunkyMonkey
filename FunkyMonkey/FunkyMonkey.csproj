@@ -114,6 +114,9 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Peons\Controllers\HomeController.cs" />
     <Compile Include="Areas\Peons\PeonsAreaRegistration.cs" />
+    <Compile Include="Areas\Sycophants\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Sycophants\SycophantsAreaRegistration.cs" />
+    <Compile Include="Common\ImageService.cs" />
     <Compile Include="Common\PeonService.cs" />
     <Compile Include="Common\PeonStore.cs" />
     <Compile Include="Common\PeonStore.Populate.cs" />
@@ -171,12 +174,19 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
     <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Areas\Sycophants\Views\web.config" />
+    <Content Include="Areas\Sycophants\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Sycophants\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Sycophants\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Peons\Views\Home\DropzoneTemplate.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\app\appStart.js" />
     <Content Include="Scripts\app\controllers\AdminController.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\FileUploadController.js" />
     <Content Include="Scripts\app\controllers\FilterModalController.js" />
     <Content Include="Scripts\app\controllers\PeonController.js" />
+    <Content Include="Scripts\app\directives\dropzone-directive.js" />
     <Content Include="Scripts\app\services\AppConfig.js" />
     <Content Include="Scripts\app\services\FilterOptions.js" />
     <Content Include="Scripts\app\filters\AreaFilters.js" />
@@ -199,6 +209,8 @@
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -227,11 +239,13 @@
     <Content Include="Views\Home\Modal.cshtml" />
     <Content Include="Views\Home\FilterModal.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
+    <Content Include="Views\Home\_Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Peons\Models\" />
+    <Folder Include="Areas\Sycophants\Models\" />
     <Folder Include="Scripts\ui-router-extras\" />
   </ItemGroup>
   <ItemGroup>

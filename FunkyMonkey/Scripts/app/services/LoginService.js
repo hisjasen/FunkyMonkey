@@ -21,12 +21,12 @@
 
             function login()
             {
+                var userOptionsPromise = UserOptionService.loadOptions();
                 var deferred = $q.defer();
 
-                var userOptions = UserOptionService.loadOptions().then(function (userOptionResult)
+                userOptionsPromise.then(function (userOptionResult)
                 {
                     console.log("login:loadOptions", userOptionResult);
-                    
                     deferred.resolve(userOptionResult);
                 },
                 function (reason)

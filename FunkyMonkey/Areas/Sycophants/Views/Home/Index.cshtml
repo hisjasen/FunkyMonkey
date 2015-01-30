@@ -1,0 +1,66 @@
+﻿@model FunkyMonkey.Models.DomainModels.Peon
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Peon Re-Identification Upload</h4>
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                @using (Ajax.BeginForm(actionName: "Edit", controllerName: "Home", routeValues: new { area = "Sycophants" },
+                    ajaxOptions: new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }, htmlAttributes: new { @id="peonForm" }))
+                {
+                    <input type="text" id="id" name="id" value="42" />
+                    <button>Submit</button>
+                }
+                <div id="foo"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button id="btnSubmit">Fake Submit</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.EditorFor(m => m.Name)
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.DisplayFor(m => m.Name)
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts {
+<script>
+    function onSuccess(data, status, xhr)
+    {
+        console.log("ajax", data);
+    }
+    $(document).ready(function ()
+    {
+        $("#btnSubmit").on("click", function (e)
+        {
+            $("#peonForm").submit();
+        });
+    });
+</script>
+
+}

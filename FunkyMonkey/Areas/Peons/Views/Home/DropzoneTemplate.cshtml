@@ -1,0 +1,8 @@
+﻿<form action="{{action}}" method="{{method}}" class="dropzone" enctype="multipart/form-data">
+    <div class="fallback">
+        <input type="file" name="uploadFile" ng-model="uploadController.uploadFile" />
+    </div>
+    <label>Peon Id</label>
+    <input type="text" name="pid" ng-model="uploadController.pid" />
+    <button class="btn btn-default btn-sm" type="button" ng-click="uploadController.processQueue()">Process</button>
+</form>

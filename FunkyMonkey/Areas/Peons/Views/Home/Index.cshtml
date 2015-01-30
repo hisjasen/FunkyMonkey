@@ -1,4 +1,22 @@
 ﻿<div>
     <h3>Peons/Home</h3>
-    <div><span>Rank: </span><span class="label label-info">{{peonController.rank}}</span></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">Peon Identification Upload</h4>
+            <span>Rank: </span><span class="label label-info">{{peonController.rank}}</span>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <dropzone-widget action="/FunkyMonkey/Peons/Home/Upload" method="post"
+                              on-process="processQueue()"></dropzone-widget>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
