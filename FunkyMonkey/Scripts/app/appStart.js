@@ -2,11 +2,14 @@
 {
     var app = angular.module("funkymonkey.app");
     
-    try {
+    //try {
         appInitialize().then(bootstrapApplication);
-    } catch (exeception) {
-        window.location.href = "//localhost/funkymonkey/home/failedToStart";
-    }
+    //}
+    //catch (exception)
+    //{
+    //    console.log("EXCEPTION:", exception);
+    //    window.location.href = "//localhost/funkymonkey/home/failedToStart";
+    //}
 
     function appInitialize()
     {

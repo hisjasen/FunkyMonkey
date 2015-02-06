@@ -6,11 +6,10 @@
         {
             var _this = this;
             this.rank = Session.userOption.rank;
-            this.dropzone = { "foo": "bar" };
 
-            this.process = function ()
+            this.processQueue = function ()
             {
-                console.log(_this.dropzone);
+                console.log("peonController process");
             };
         }]);
 })();
