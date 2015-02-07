@@ -68,9 +68,15 @@
                     console.log("addedFile", file);
                     file.previewElement.addEventListener("click", function ()
                     {
-                        _this.dropzone.removeFile(file);
-                        removeResizedImage(file);
+                        _this.onRemoveFile(file);
                     });
+                };
+
+                this.onRemoveFile = function (file)
+                {
+                    _this.dropzone.removeFile(file);
+                    removeResizedImage(file);
+                    popQueue(toProcessQueue, file.name);
                 };
 
                 this.onDrop = function (event)
@@ -122,7 +128,7 @@
 
                         console.log(i, "processQueue ", files, files[i]);
 
-                        popQueue(toProcessQueue, files[i]);
+                        popQueue(toProcessQueue, files[i].name);
                         inProgressQueue.push(files[i]);
 
                         $.ajax({
@@ -131,25 +137,30 @@
                             //contentType: "application/x-www-form-urlencoded",
                             data: {
                                 uploadFile: imgBase64,
+                                name: files[i].name,
                                 pid: data.pid,
                                 seq: i + 1
                             }
                         })
                         .always(function (result)
                         {
-                            console.log("uploaded", result);
-                            popQueue(inProgressQueue, files[i]);
+                            console.log("uploaded", result, files[i]);
+                            popQueue(inProgressQueue, result.name);
+                            popQueue(toProcessQueue, result.name);
+
                             if (result.result == "success")
                             {
-                                var filename = result.name;
+                                var filename = result.filename;
+                                var name = result.name;
                                 var pid = result.pid;
                                 var height = result.height;
                                 var width = result.width;
 
-                                if (processQueue.length == 0 && inProgressQueue == 0)
+                                if (toProcessQueue.length == 0 && inProgressQueue == 0)
                                 {
                                     alert("Upload Completed Successfully");
                                 }
+
                             }
                         });
                     }
@@ -216,12 +227,10 @@
                     }
                 };
 
-                function popQueue(queue, file)
+                function popQueue(queue, filename)
                 {
-                    console.log("pop", queue, file);
-
-                    var filename = file.name;
-
+                    console.log("pop", queue, filename);
+                    
                     for (var i = 0; i < queue.length; i++)
                     {
                         if (queue[i].name === filename)

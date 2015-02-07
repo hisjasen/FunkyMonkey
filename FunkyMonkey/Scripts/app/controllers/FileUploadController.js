@@ -6,7 +6,7 @@
             console.log("FileUploadController", $scope);
 
             var _this = this;
-            this.pid = $scope.pid;
+            this.pid = "12345";
             this.dropzone = null;
             var scope = $scope.$new();
 
@@ -17,7 +17,7 @@
 
             this.processQueue = function ()
             {
-                console.log("controller process queue")
+                console.log("controller process queue", _this.pid)
                 _this.dropzone.processQueue({ pid: _this.pid });
             };
 

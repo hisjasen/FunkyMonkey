@@ -1,0 +1,32 @@
+diff --git a/FunkyMonkey/Scripts/app/services/LoginService.js b/FunkyMonkey/Scripts/app/services/LoginService.js
+index c66f493..5db5c40 100644
+--- a/FunkyMonkey/Scripts/app/services/LoginService.js
++++ b/FunkyMonkey/Scripts/app/services/LoginService.js
+@@ -5,12 +5,6 @@
+         function ($q, $rootScope, UserOptionService)
+         {
+             var LOGIN_SUCCESS = "loginSuccess";
+-            var injector = angular.injector(["ngCookies"]);
+-            var cookies = injector.get("$cookies");
+-            var cookieStore = injector.get("$cookieStore");
+-            var site = cookies.RE_SITE;
+-            var user = cookies.REUSER.split("&");
+-            console.log("SITE", site, user);
+ 
+             var svc = {
+                 login: login
+@@ -21,12 +15,12 @@
+ 
+             function login()
+             {
+-                var userOptionsPromise = UserOptionService.loadOptions();
+                 var deferred = $q.defer();
+ 
+-                userOptionsPromise.then(function (userOptionResult)
++                var userOptions = UserOptionService.loadOptions().then(function (userOptionResult)
+                 {
+                     console.log("login:loadOptions", userOptionResult);
++                    
+                     deferred.resolve(userOptionResult);
+                 },
+                 function (reason)

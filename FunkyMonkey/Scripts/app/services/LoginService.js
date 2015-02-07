@@ -9,7 +9,7 @@
             var cookies = injector.get("$cookies");
             var cookieStore = injector.get("$cookieStore");
             var site = cookies.RE_SITE;
-            var user = cookies.REUSER.split("&");
+            var user = (cookies.REUSER || "").split("&");
             console.log("SITE", site, user);
 
             var svc = {

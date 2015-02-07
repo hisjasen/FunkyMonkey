@@ -13,7 +13,8 @@
     width: 120px;
     margin: 0.5em; }
     .dropzone .dz-preview .dz-progress {
-      display: block;
+      /*display: block;*/
+	  display:none;
       height: 15px;
       border: 1px solid #aaa; }
       .dropzone .dz-preview .dz-progress .dz-upload {
