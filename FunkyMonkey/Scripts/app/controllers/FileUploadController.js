@@ -13,6 +13,10 @@
             this.init = function (selector, element, options)
             {
                 _this.dropzone = new DropzoneService(selector, element, options);
+                _this.dropzone.onResizeQueueComplete($scope, function (data)
+                {
+                    console.log("CONTROLLER SAY HI");
+                });
             };
 
             this.processQueue = function ()

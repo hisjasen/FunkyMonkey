@@ -1,13 +1,18 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.services")
-        .service("DropzoneService", [function ()
+        .service("DropzoneService", ["$rootScope", function ($rootScope)
         {
             var DropzoneService = function (selector, element, options)
             {
+                var UPLOAD_QUEUE_COMPLETE = "uploadQueueComplete";
+                var RESIZE_QUEUE_COMPLETE = "resizeQueueComplete";
+
                 console.log("DropzoneService constructor", selector, options);
                 Dropzone.autoDiscover = false;
                 var _this = this;
+                var toResizeQueue = [];
+                var inResizeQueue = [];
                 var toProcessQueue = [];
                 var inProgressQueue = [];
                 this.dropzone = null;
@@ -27,6 +32,7 @@
                     uploadMultiple: options.uploadMultiple,
                     parallelUploads: options.parallelUploads
                 };
+                this.listensForDelete = false;
                 this.resizedFiles = [];
                 this.canvas = null;
                 this.formData = null;
@@ -35,7 +41,6 @@
                 this.initialize = function ()
                 {
                     _this.canvas = document.createElement("canvas");
-                    console.log("canvas", _this.canvas);
 
                     _this.dropzone = $(_this.selector, _this.element).dropzone(_this.dzOptions).get(0).dropzone;
                     _this.dropzone.on("error", onError);
@@ -53,6 +58,34 @@
 
                 };
 
+                this.onUploadQueueComplete = function (scope, handler)
+                {
+                    scope.$on(UPLOAD_QUEUE_COMPLETE, function (event, message)
+                    {
+                        handler(message);
+                    });
+                };
+
+                this.onResizeQueueComplete = function (scope, handler)
+                {
+                    //console.log("RESIZE_QUEUE_COMPLETE");
+                    //for (var i = 0; i < _this.dropzone.files.length; i++)
+                    //{
+                    //    _this.dropzone.files[i];
+                    //    console.log("add handler", _this.dropzone.files[i].name, i);
+                    //    _this.dropzone.files[i].previewElement.addEventListener("click", function ()
+                    //    {
+                    //        console.log("REMOVE REMOVE", _this.dropzone.files[i].name);
+                    //        _this.onRemoveFile(_this.dropzone.files[i]);
+                    //    });
+                    //}
+                    scope.$on(RESIZE_QUEUE_COMPLETE, function (event, message)
+                    {
+                        _this.listensForDelete = true;
+                        handler(message);
+                    });
+                };
+
                 this.uploadFiles = function (files)
                 {
 
@@ -65,7 +98,9 @@
 
                 this.onAddedFile = function (file)
                 {
-                    console.log("addedFile", file);
+                    toResizeQueue.push(file);
+                    _this.listensForDelete = false;
+
                     file.previewElement.addEventListener("click", function ()
                     {
                         _this.onRemoveFile(file);
@@ -74,9 +109,14 @@
 
                 this.onRemoveFile = function (file)
                 {
-                    _this.dropzone.removeFile(file);
-                    removeResizedImage(file);
-                    popQueue(toProcessQueue, file.name);
+                    if (_this.listensForDelete)
+                    {
+                        _this.dropzone.removeFile(file);
+                        //removeResizedImage(file);
+                        popQueue(_this.resizedFiles, file.name);
+                        popQueue(toProcessQueue, file.name);
+                        popQueue(toResizeQueue, file.name);
+                    }
                 };
 
                 this.onDrop = function (event)
@@ -90,11 +130,15 @@
                     var width = file.width;
 
                     console.log("thumbnail", file, dataUrl, { "h": height, "w": width });
-
+                    
                     if (file.accepted)
                     {
                         resizeImage(file);
                         //_this.resizedFiles.push(file);
+                    }
+                    else
+                    {
+                        popQueue(toResizeQueue, file.name);
                     }
                 };
 
@@ -110,17 +154,7 @@
 
                 this.processQueue = function (data)
                 {
-                    //var files = _this.dropzone.getAcceptedFiles();
                     var files = _this.resizedFiles;
-
-                    //angular.forEach(files, function (file)
-                    //{
-                    //    if (!file.upload.processing)
-                    //    {
-                    //        console.log("process file", file);
-                    //        _this.dropzone.processFile(file);
-                    //    }
-                    //});
 
                     for (var i = 0; i < files.length; i++)
                     {
@@ -156,9 +190,10 @@
                                 var height = result.height;
                                 var width = result.width;
 
-                                if (toProcessQueue.length == 0 && inProgressQueue == 0)
+                                if (toProcessQueue.length <= 0 && inProgressQueue <= 0)
                                 {
                                     alert("Upload Completed Successfully");
+                                    $rootScope.$broadcast(UPLOAD_QUEUE_COMPLETE, {});
                                 }
 
                             }
@@ -178,8 +213,10 @@
                     {
                         var img = new Image();
                         img.src = fileReader.result;
+
                         img.onload = function ()
                         {
+                            inResizeQueue.push(file); console.log("inResizeQueue", toResizeQueue, inResizeQueue);
                             var canvas = document.createElement("canvas");
                             var context = canvas.getContext("2d");
                             canvas.width = img.width;
@@ -192,8 +229,9 @@
                                 height: 400,
                                 width: 600
                             };
-                            resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
 
+                            resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
+                            
                             var dataUrl = canvas.toDataURL("image/jpeg");
 
                             var blob = dataURItoBlob(dataUrl);
@@ -202,6 +240,17 @@
 
                             file.imgBase64 = dataUrl;
                             console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
+
+                            popQueue(inResizeQueue, file.name);
+                            popQueue(toResizeQueue, file.name);
+
+                            if (toResizeQueue.length <= 0 && inResizeQueue.length <= 0)
+                            {
+                                console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
+                                alert("Ready to upload");
+                                $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, {});
+                            }
+
                             _this.resizedFiles.push(file);
                             toProcessQueue.push(file);
 
@@ -213,19 +262,19 @@
                     fileReader.readAsDataURL(file);
                 };
 
-                function removeResizedImage(file)
-                {
-                    var filename = file.name;
+                //function removeResizedImage(file)
+                //{
+                //    var filename = file.name;
 
-                    for (var i = 0; i < _this.resizedFiles.length; i++)
-                    {
-                        if (_this.resizedFiles[i].name === filename)
-                        {
-                            _this.resizedFiles.splice(i, 1);
-                            return _this.resizedFiles[i];
-                        }
-                    }
-                };
+                //    for (var i = 0; i < _this.resizedFiles.length; i++)
+                //    {
+                //        if (_this.resizedFiles[i].name === filename)
+                //        {
+                //            _this.resizedFiles.splice(i, 1);
+                //            return _this.resizedFiles[i];
+                //        }
+                //    }
+                //};
 
                 function popQueue(queue, filename)
                 {
