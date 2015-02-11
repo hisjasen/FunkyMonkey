@@ -1,8 +1,14 @@
-﻿<form action="{{action}}" method="{{method}}" class="dropzone" enctype="multipart/form-data">
+﻿<div>
+<form action="{{uploadController.action}}" method="{{uploadController.method}}" class="dropzone" enctype="multipart/form-data">
     <div class="fallback">
         <input type="file" name="uploadFile" ng-model="uploadController.uploadFile" />
     </div>
+</form>
     <label>Peon Id</label>
     <input type="text" name="pid" ng-model="uploadController.pid" />
-    <button class="btn btn-default btn-sm" type="button" ng-click="uploadController.processQueue()">Process</button>
-</form>
+    <input type="checkbox" ng-model="uploadController.uploadDisabled" />
+    <button class="btn btn-default btn-sm" type="button" ng-disabled="uploadController.uploadDisabled" ng-click="uploadController.processQueue()">Process</button>
+<button ng-click="uploadController.toggle()">Toggle</button>
+    <button ng-click="uploadController.foo()">Foo</button>
+<span class="label label-info">{{uploadController.uploadDisabled}}</span>
+</div>

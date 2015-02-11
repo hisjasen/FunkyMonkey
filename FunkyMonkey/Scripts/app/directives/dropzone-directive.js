@@ -9,34 +9,28 @@
     {
         var _this = this;
 
-
         return {
             restrict: "E",
             templateUrl: "/FunkyMonkey/Peons/Home/DropzoneTemplate",
-            transclude: true,
             scope: {
                 action: "@",
-                method: "@",
-                //processQueue: "&"
+                method: "@"
             },
             link: function (scope, element, attrs, uploadController)
             {
-                $(".dropzone").sortable({
-                    items: ".dz-preview",
-                    containment: "parent",
-                    update: function (e, ui) { console.log("sortable update", e); }
-                });
-                console.log("mah controller", scope, uploadController);
+                //console.log("link", scope, attrs);
+                uploadController.init(".dropzone", element, getOptions(attrs), { "pid": scope.pid });
 
-                uploadController.init(".dropzone", element, getOptions(scope), { "pid": uploadController.pid });
+                //console.log("mah controller", scope, uploadController);
             },
-            controller: "FileUploadController as uploadController"
+            controller: "FileUploadController as uploadController",
+            bindToController: true
         };
 
-        function getOptions(scope)
+        function getOptions(attrs)
         {
             var dzOptions = {
-                url: scope.action,
+                url: attrs.action,
                 maxFilesize: 100,
                 maxFiles: 10,
                 acceptedFiles: "image/jpeg",

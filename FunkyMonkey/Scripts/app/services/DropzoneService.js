@@ -1,12 +1,13 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.services")
-        .service("DropzoneService", ["$rootScope", function ($rootScope)
+        .service("DropzoneService", ["$rootScope", "$timeout", function ($rootScope, $timeout)
         {
             var DropzoneService = function (selector, element, options)
             {
                 var UPLOAD_QUEUE_COMPLETE = "uploadQueueComplete";
                 var RESIZE_QUEUE_COMPLETE = "resizeQueueComplete";
+                var FOO_COMPLETE = "fooComplete";
 
                 console.log("DropzoneService constructor", selector, options);
                 Dropzone.autoDiscover = false;
@@ -58,6 +59,22 @@
 
                 };
 
+                this.startFoo = function ()
+                {
+                    $timeout(function ()
+                    {
+                        $rootScope.$broadcast(FOO_COMPLETE, {});
+                    }, 1000);
+                };
+
+                this.onFooComplete = function (scope, handler)
+                {
+                    scope.$on(FOO_COMPLETE, function (event, message)
+                    {
+                        handler(message);
+                    });
+                };
+
                 this.onUploadQueueComplete = function (scope, handler)
                 {
                     scope.$on(UPLOAD_QUEUE_COMPLETE, function (event, message)
@@ -68,17 +85,6 @@
 
                 this.onResizeQueueComplete = function (scope, handler)
                 {
-                    //console.log("RESIZE_QUEUE_COMPLETE");
-                    //for (var i = 0; i < _this.dropzone.files.length; i++)
-                    //{
-                    //    _this.dropzone.files[i];
-                    //    console.log("add handler", _this.dropzone.files[i].name, i);
-                    //    _this.dropzone.files[i].previewElement.addEventListener("click", function ()
-                    //    {
-                    //        console.log("REMOVE REMOVE", _this.dropzone.files[i].name);
-                    //        _this.onRemoveFile(_this.dropzone.files[i]);
-                    //    });
-                    //}
                     scope.$on(RESIZE_QUEUE_COMPLETE, function (event, message)
                     {
                         _this.listensForDelete = true;
@@ -192,7 +198,6 @@
 
                                 if (toProcessQueue.length <= 0 && inProgressQueue <= 0)
                                 {
-                                    alert("Upload Completed Successfully");
                                     $rootScope.$broadcast(UPLOAD_QUEUE_COMPLETE, {});
                                 }
 
@@ -247,7 +252,7 @@
                             if (toResizeQueue.length <= 0 && inResizeQueue.length <= 0)
                             {
                                 console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
-                                alert("Ready to upload");
+                                
                                 $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, {});
                             }
 
