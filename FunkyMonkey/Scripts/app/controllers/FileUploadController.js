@@ -43,15 +43,18 @@
             this.processQueue = function ()
             {
                 _this.uploadDisabled = true;
-                _this.pid = "98765";
                 console.log("controller process queue", _this.pid);
                 _this.dropzone.processQueue({ pid: _this.pid });
             };
 
             this.onResizeQueueComplete = function (data)
             {
-                _this.uploadDisabled = false;
-                console.log("CONTROLLER SAY HI", _this, $rootScope, $scope);
+                // need $apply because the dropzone service initiated the uploadDisabled change
+                $scope.$apply(function ()
+                {
+                    _this.uploadDisabled = false;
+                    console.log("CONTROLLER SAY HI", _this, $rootScope, $scope);
+                });
             };
 
             this.onUploadQueueComplete = function (data)

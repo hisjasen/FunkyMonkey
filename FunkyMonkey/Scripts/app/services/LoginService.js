@@ -1,6 +1,6 @@
 ﻿(function ()
 {
-    angular.module("funkymonkey.services")
+    angular.module("funkymonkey.startup", ["funkymonkey.services"])
         .factory("LoginService", ["$q", "$rootScope", "UserOptionService",
         function ($q, $rootScope, UserOptionService)
         {

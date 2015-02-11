@@ -14,7 +14,8 @@
             templateUrl: "/FunkyMonkey/Peons/Home/DropzoneTemplate",
             scope: {
                 action: "@",
-                method: "@"
+                method: "@",
+                //uploadDisabled: "&"
             },
             link: function (scope, element, attrs, uploadController)
             {

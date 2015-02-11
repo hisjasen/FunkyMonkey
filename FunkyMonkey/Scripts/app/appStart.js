@@ -13,7 +13,7 @@
 
     function appInitialize()
     {
-        var injector = angular.injector(["ng", "ngCookies", "funkymonkey.services"]);
+        var injector = angular.injector(["ng", "ngCookies", "funkymonkey.startup"]);
         var LoginService = injector.get("LoginService");
         var AppConfig = injector.get("AppConfig");
         var cookies = injector.get("$cookies");
