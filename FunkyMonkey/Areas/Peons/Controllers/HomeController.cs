@@ -26,6 +26,10 @@ namespace FunkyMonkey.Areas.Peons.Controllers
 
         public ActionResult DropzoneTemplate()
         {
+            //var ts = TimeSpan.FromHours(25);
+            //var hrs = ts.TotalHours;
+            //ViewBag.Hours = hrs.ToString();
+            //ViewBag.Time = ts;
             return PartialView();
         }
 
@@ -47,8 +51,8 @@ namespace FunkyMonkey.Areas.Peons.Controllers
         public ActionResult UploadBase64(string uploadFile, string pid, string name, int seq)
         {
             string filename = String.Format("{0}_{1:000}.jpg", pid, seq);
-            string base64 = uploadFile.Substring(uploadFile.IndexOf(',') + 1);
-            base64 = base64.Trim('\0');
+            string base64 = uploadFile.Substring(uploadFile.IndexOf(',') + 1);  // drop prefixed "data:image/jpeg;base64,"
+            base64 = base64.Trim('\0');  // trim null termination chars
             var result = imgService.UploadImage(base64, pid, filename);
 
             return Json(new { result = "success", name = name, filename = filename, pid = pid, height = result.Height, width = result.Width });

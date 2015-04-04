@@ -3,3 +3,21 @@
 <span ng-bind="homeController.date | jsonDate: 'yyyy-MM-dd HH:mm:ss'"></span>
 </div>
 
+<div class="">@Html.ApplicationVersion()</div>
+
+@{
+    var foo = new { name = "foo" };
+}
+
+@Html.DisplayFor(m => foo.name)
+
+<script>
+    function foo()
+    {
+        console.log("foo");
+    }
+</script>
+
+@Ajax.ActionLink("Home", "Foo", "Home", new AjaxOptions { UpdateTargetId="updateDiv", OnSuccess = "(function(){ console.log('foo'); })()" })
+
+<div id="updateDiv"></div>

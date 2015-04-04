@@ -70,5 +70,16 @@ namespace FunkyMonkey.Controllers
         {
             return View("Error");
         }
+
+        public ActionResult Foo()
+        {
+            return View("Contact");
+        }
+
+        [HttpPost]
+        public ActionResult Pingback(string msg)
+        {
+            return Json(new { msg = msg });
+        }
     }
 }

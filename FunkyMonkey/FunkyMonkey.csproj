@@ -116,10 +116,13 @@
     <Compile Include="Areas\Peons\PeonsAreaRegistration.cs" />
     <Compile Include="Areas\Sycophants\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sycophants\SycophantsAreaRegistration.cs" />
+    <Compile Include="Common\ApplicationMetadata.cs" />
+    <Compile Include="Common\HtmlHelperExtensions.cs" />
     <Compile Include="Common\ImageService.cs" />
     <Compile Include="Common\PeonService.cs" />
     <Compile Include="Common\PeonStore.cs" />
     <Compile Include="Common\PeonStore.Populate.cs" />
+    <Compile Include="Common\VersionService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,6 +216,7 @@
     <Content Include="Areas\Sycophants\Views\Home\Index.cshtml" />
     <Content Include="Areas\Peons\Views\Home\DropzoneTemplate.cshtml" />
     <Content Include="Areas\Sycophants\Views\Home\_EditResponse.cshtml" />
+    <None Include="Properties\PublishProfiles\Local HDD.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\app\appStart.js" />
     <Content Include="Scripts\app\controllers\AdminController.js" />
@@ -235,6 +239,7 @@
     <Content Include="Scripts\app\services\Session.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dropzone-4.0.0\dropzone-amd-module.js" />
     <Content Include="Scripts\dropzone-4.0.0\dropzone-amd-module.min.js" />
     <Content Include="Scripts\dropzone-4.0.0\dropzone.js" />
     <Content Include="Scripts\dropzone-4.0.0\dropzone.min.js" />
@@ -258,6 +263,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ui-router-extras\ct-ui-router-extras.js" />
+    <Content Include="Scripts\ui-router-extras\ct-ui-router-extras.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -283,7 +290,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Peons\Models\" />
     <Folder Include="Areas\Sycophants\Models\" />
-    <Folder Include="Scripts\ui-router-extras\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

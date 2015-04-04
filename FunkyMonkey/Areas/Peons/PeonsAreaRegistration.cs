@@ -12,8 +12,14 @@ namespace FunkyMonkey.Areas.Peons
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
+            //context.MapRoute(
+            //    "PeonsOverride",
+            //    "Peons/{*.}",
+            //    new { controller = "Home", action = "Index", area = "" },
+            //    new string[] { "FunkyMonkey.Areas.Peons.Controllers" }
+            //);
             context.MapRoute(
                 "Peons_default",
                 "Peons/{controller}/{action}/{id}",

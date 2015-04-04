@@ -1,5 +1,6 @@
 ﻿(function ()
 {
+    //Dropzone.autoDiscover = false;
     angular.module("funkymonkey.services", []);
     angular.module("funkymonkey.controllers", ["ui.bootstrap"]);
     angular.module("funkymonkey.filters", []);
@@ -17,22 +18,31 @@
         "funkymonkey.directives"
     ]);
 
-    app.config(["$logProvider", "$stateProvider", "$stickyStateProvider", "$urlRouterProvider", "AppConfig", "SessionProvider",
-    function ($logProvider, $stateProvider, $stickyStateProvider, $urlRouterProvider, AppConfig, SessionProvider)
+    app.config(["$logProvider", "$stateProvider", "$stickyStateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", "AppConfig", "SessionProvider",
+    function ($logProvider, $stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $httpProvider, AppConfig, SessionProvider)
     {
         console.log("app config");
+
+        $httpProvider.defaults.headers.common["X-Requested-With"] = "NgRequest";
+
         AppConfig.site = "FOO";
         SessionProvider.userOption.date = AppConfig.userOption.Date;
         SessionProvider.userOption.rank = AppConfig.userOption.Rank;
         //SessionProvider.create(AppConfig.userOption.Rank, AppConfig.userOption.Date);
 
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/app/home');
+
+        $locationProvider.html5Mode({
+            enabled: false,
+            requireBase: true
+        });
 
         $stateProvider.state("root", {
             url: "",
             abstract: true,
             onEnter: function () { console.log("root"); }
         });
+
 
         $stateProvider.state("root.home", {
             parent: "root",
@@ -69,7 +79,7 @@
             url: "/peons/home",
             views: {
                 "contentContainer@": {
-                    templateUrl: "/FunkyMonkey/Peons/Home/Index",
+                    templateUrl: "FunkyMonkey/Peons/Home/Index",
                     controller: "PeonController as peonController"
                 }
             },

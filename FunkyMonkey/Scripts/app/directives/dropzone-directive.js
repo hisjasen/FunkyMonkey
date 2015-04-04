@@ -11,7 +11,7 @@
 
         return {
             restrict: "E",
-            templateUrl: "/FunkyMonkey/Peons/Home/DropzoneTemplate",
+            templateUrl: "FunkyMonkey/Peons/Home/DropzoneTemplate",
             scope: {
                 action: "@",
                 method: "@",
@@ -32,7 +32,7 @@
         {
             var dzOptions = {
                 url: attrs.action,
-                maxFilesize: 100,
+                maxFilesize: 4,
                 maxFiles: 10,
                 acceptedFiles: "image/jpeg",
                 paramName: "uploadFile",

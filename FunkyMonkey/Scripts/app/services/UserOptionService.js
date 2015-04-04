@@ -19,7 +19,7 @@
 
                 $http({
                     method: "GET",
-                    url: "/FunkyMonkey/Home/GetUserOption"
+                    url: "FunkyMonkey/Home/GetUserOption"
                 })
                 .success(function (userOption)
                 {

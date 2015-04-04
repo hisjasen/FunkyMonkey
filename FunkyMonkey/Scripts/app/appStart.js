@@ -24,7 +24,6 @@
             AppConfig.userOption = result;
             AppConfig.valid = true;
             AppConfig.errorMsg = "";
-            console.log("appStart login", AppConfig);
         },
         function (error)
         {

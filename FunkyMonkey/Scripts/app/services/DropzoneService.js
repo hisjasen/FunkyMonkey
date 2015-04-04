@@ -7,10 +7,10 @@
             {
                 var UPLOAD_QUEUE_COMPLETE = "uploadQueueComplete";
                 var RESIZE_QUEUE_COMPLETE = "resizeQueueComplete";
-                var FOO_COMPLETE = "fooComplete";
+                var FILE_DROP = "fileDrop";
 
                 console.log("DropzoneService constructor", selector, options);
-                Dropzone.autoDiscover = false;
+
                 var _this = this;
                 var toResizeQueue = [];
                 var inResizeQueue = [];
@@ -33,6 +33,7 @@
                     uploadMultiple: options.uploadMultiple,
                     parallelUploads: options.parallelUploads
                 };
+                this.algorithm = options.algorithm;
                 this.listensForDelete = false;
                 this.resizedFiles = [];
                 this.canvas = null;
@@ -43,9 +44,11 @@
                 {
                     _this.canvas = document.createElement("canvas");
 
+                    // create new Dropzone (jQuery plug-in style)
                     _this.dropzone = $(_this.selector, _this.element).dropzone(_this.dzOptions).get(0).dropzone;
+
                     _this.dropzone.on("error", onError);
-                    _this.dropzone.on("drop", _this.onDrop);
+                    _this.dropzone.on("drop", _this._onDrop);
                     _this.dropzone.on("addedfile", _this.onAddedFile);
                     _this.dropzone.on("queueComplete", _this.onQueueComplete);
                     _this.dropzone.on("thumbnail", _this.onThumbnail);
@@ -56,23 +59,7 @@
 
                 function onError(file, errorMessage, xhr)
                 {
-
-                };
-
-                this.startFoo = function ()
-                {
-                    $timeout(function ()
-                    {
-                        $rootScope.$broadcast(FOO_COMPLETE, {});
-                    }, 1000);
-                };
-
-                this.onFooComplete = function (scope, handler)
-                {
-                    scope.$on(FOO_COMPLETE, function (event, message)
-                    {
-                        handler(message);
-                    });
+                    console.log("DropzoneService error", file, errorMessage, xhr);
                 };
 
                 this.onUploadQueueComplete = function (scope, handler)
@@ -125,10 +112,21 @@
                     }
                 };
 
-                this.onDrop = function (event)
+                this.onDrop = function (scope, handler)
                 {
-                    console.log("drop", event);
+                    console.log("svc onDrop", scope);
+                    scope.$on(FILE_DROP, function (event, message)
+                    {
+                        console.log("svc onDrop scope.on");
+                        handler(message);
+                    });
                 };
+
+                this._onDrop = function (event)
+                {
+                    console.log("_drop", event);
+                    $rootScope.$broadcast(FILE_DROP, {});
+                }
 
                 this.onThumbnail = function (file, dataUrl)
                 {
@@ -139,7 +137,9 @@
                     
                     if (file.accepted)
                     {
-                        resizeImage(file);
+                        console.log("resize algorithm", _this.algorithm);
+
+                        resizeImage(file, _this.algorithm);
                         //_this.resizedFiles.push(file);
                     }
                     else
@@ -211,7 +211,14 @@
                     //});
 
                 };
-                function resizeImage(file)
+
+                this.changeAlgorithm = function (algorithm)
+                {
+                    console.log("change algorithm", algorithm);
+                    _this.algorithm = algorithm;
+                };
+
+                function resizeImage(file, algorithm)
                 {
                     var fileReader = new FileReader();
                     fileReader.onload = function (x)
@@ -224,27 +231,43 @@
                             inResizeQueue.push(file); console.log("inResizeQueue", toResizeQueue, inResizeQueue);
                             var canvas = document.createElement("canvas");
                             var context = canvas.getContext("2d");
-                            canvas.width = img.width;
-                            canvas.height = img.height;
-                            context.drawImage(img, 0, 0);
+                            var resized = resizeKeepAspectRatio({ height: 400, width: 600 }, { height: img.height, width: img.width });
+                            //canvas.width = img.width;
+                            //canvas.height = img.height;
+                            //canvas.width = resized.width;
+                            //canvas.height = resized.height;
+                            var subsampled = detectSubsampling(img);
 
-                            // need to calculate dimensions to maintain aspect ratio to fit within 600x400
-                            // default is 96dpi (I don't know if this can be directly changed)
-                            var resized = {
-                                height: 400,
-                                width: 600
-                            };
+                            console.log(img.naturalWidth, img.naturalHeight, resized);
 
-                            resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
+                            if (algorithm == "basic")
+                            {
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                                context.drawImage(img, 0, 0, img.width, img.height);
+                                resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
+                            }
+                            else
+                            {
+                                canvas.width = resized.width;
+                                canvas.height = resized.height;
+                                drawImageIOSFix(context, img, 0, 0, img.width, img.height, 0, 0, resized.width, resized.height);
+                                //resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
+                            }
+
+
+                            $("#resized").append($(canvas));
                             
-                            var dataUrl = canvas.toDataURL("image/jpeg");
+                            var dataUrl = canvas.toDataURL("image/jpeg", 1.0);
 
                             var blob = dataURItoBlob(dataUrl);
                             var formData = new FormData();  // FormData is an add-only container
                             formData.append("imageBlob", blob);
 
                             file.imgBase64 = dataUrl;
-                            console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
+                            //console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
+
+                            $("#blob").val(dataUrl);
 
                             popQueue(inResizeQueue, file.name);
                             popQueue(toResizeQueue, file.name);
@@ -253,7 +276,7 @@
                             {
                                 console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
                                 
-                                $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, {});
+                                $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, { subsampled: subsampled });
                             }
 
                             _this.resizedFiles.push(file);
@@ -267,19 +290,6 @@
                     fileReader.readAsDataURL(file);
                 };
 
-                //function removeResizedImage(file)
-                //{
-                //    var filename = file.name;
-
-                //    for (var i = 0; i < _this.resizedFiles.length; i++)
-                //    {
-                //        if (_this.resizedFiles[i].name === filename)
-                //        {
-                //            _this.resizedFiles.splice(i, 1);
-                //            return _this.resizedFiles[i];
-                //        }
-                //    }
-                //};
 
                 function popQueue(queue, filename)
                 {
@@ -300,6 +310,20 @@
 
             return DropzoneService;
 
+
+            function resizeKeepAspectRatio(cntDim, imgDim)
+            {
+                var scaleWidth = cntDim.width / imgDim.width;
+                var scaleHeight = cntDim.height / imgDim.height;
+                var scaleFactor = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
+                var newHeight = Math.round(scaleFactor * imgDim.height);
+                var newWidth = Math.round(scaleFactor * imgDim.width);
+
+                return {
+                    height: newHeight,
+                    width: newWidth
+                };
+            };
 
             // http://stackoverflow.com/a/5100158/2030565
             function dataURItoBlob(dataURI)
@@ -392,5 +416,68 @@
                 canvas.height = H2;
                 canvas.getContext("2d").putImageData(img2, 0, 0);
             }
+
+            function detectSubsampling(img)
+            {
+                var iw = img.naturalWidth;
+                var ih = img.naturalHeight;
+                if (iw * ih > 1024 * 1024) {
+                    var canvas = document.createElement("canvas");
+                    canvas.width = canvas.height = 1;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, -iw + 1, 0);
+                    return ctx.getImageData(0, 0, 1, 1).data[3] === 0;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            function detectVerticalSquash(img)
+            {
+                var imgWidth = img.naturalWidth;
+                var imgHeight = img.naturalHeight;
+                var canvas = document.createElement("canvas");
+                canvas.width = 1;
+                canvas.height = imgWidth;
+                var context = canvas.getContext("2d");
+                context.drawImage(img, 0, 0);
+                var data = context.getImageData(0, 0, 1, imgHeight).data;
+                // search image edge pixel position in case it is squashed vertically
+                var sy = 0;
+                var ey = imgHeight;
+                var py = imgHeight;
+                while (py > sy)
+                {
+                    var alpha = data[(py - 1) * 4 + 3];
+                    if (alpha === 0)
+                    {
+                        ey = py;
+                    }
+                    else
+                    {
+                        sy = py;
+                    }
+                    py = (ey + sy) >> 1;
+                }
+                var ratio = (py / imgHeight);
+                console.log("ratio", ratio);
+                return (ratio === 0) ? 1 : ratio;
+            }
+
+            // replacement for context.drawImage
+            function drawImageIOSFix(context, img, sx, sy, sw, sh, dx, dy, dw, dh)
+            {
+                var vertSquashRatio = detectVerticalSquash(img);
+
+                console.log("drawImageIOSFix ratio", vertSquashRatio);
+                console.log(" img: ", img.width, img.height, img.naturalWidth, img.naturalHeight);
+                console.log("  dim: ", sx, sy, sw, sh, " | ", dx, dy, dw, dh);
+
+                context.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio,
+                    sw * vertSquashRatio, sh * vertSquashRatio,
+                    dx, dy, dw, dh);
+            }
+
         }]);
 })();

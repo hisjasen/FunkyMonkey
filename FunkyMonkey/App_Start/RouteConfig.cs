@@ -13,12 +13,12 @@ namespace FunkyMonkey
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //    "ApplicationOverride",
-            //    "app/{.*}",
-            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-            //    new string[] { "FunkyMonkey.Controllers" }
-            //);
+            routes.MapRoute(
+                "ApplicationOverride",
+                "FunkyMonkey/{*url}",
+                new { controller = "Home", action = "Index", area = "" },
+                new string[] { "FunkyMonkey.Controllers" }
+            );
 
             routes.MapRoute(
                 name: "Default",
