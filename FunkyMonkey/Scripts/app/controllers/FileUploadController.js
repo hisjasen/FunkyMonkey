@@ -1,7 +1,7 @@
 ﻿(function ()
 {
     angular.module("funkymonkey.controllers")
-        .controller("FileUploadController", ["$rootScope", "$scope", "DropzoneService", function ($rootScope, $scope, DropzoneService)
+        .controller("FileUploadController", ["$rootScope", "$scope", "$timeout", "DropzoneService", function ($rootScope, $scope, $timeout, DropzoneService)
         {
             console.log("FileUploadController", $scope);
 
@@ -50,8 +50,10 @@
             this.onDrop = function (msg)
             {
                 console.log("ctrl onDrop", msg);
-                $(".funkymonkey-generate-thumbnail").removeClass("hidden");
-                _this.updatePrep(true);
+                $timeout(function ()
+                {
+                    _this.updatePrep(true);
+                }, 0);
             }
 
             this.processQueue = function ()
@@ -65,14 +67,14 @@
             this.onResizeQueueComplete = function (data)
             {
                 // need $apply because the dropzone service initiated the uploadDisabled change
-                $scope.$apply(function ()
+                $timeout(function ()
                 {
                     _this.uploadDisabled = false;
                     //$(".funkymonkey-generate-thumbnail").addClass("hidden");
                     console.log("CONTROLLER SAY HI", _this, $rootScope, $scope);
                     _this.subsampled = data.subsampled;
+                    _this.updatePrep(false);
                 });
-                _this.updatePrep(false);
             };
 
             this.onUploadQueueComplete = function (data)

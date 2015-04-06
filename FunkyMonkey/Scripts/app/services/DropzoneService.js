@@ -9,8 +9,6 @@
                 var RESIZE_QUEUE_COMPLETE = "resizeQueueComplete";
                 var FILE_DROP = "fileDrop";
 
-                console.log("DropzoneService constructor", selector, options);
-
                 var _this = this;
                 var toResizeQueue = [];
                 var inResizeQueue = [];
@@ -93,11 +91,11 @@
                 {
                     toResizeQueue.push(file);
                     _this.listensForDelete = false;
-
+                    $rootScope.$broadcast(FILE_DROP, { });
                     file.previewElement.addEventListener("click", function ()
                     {
                         _this.onRemoveFile(file);
-                    });
+                });
                 };
 
                 this.onRemoveFile = function (file)
@@ -114,18 +112,16 @@
 
                 this.onDrop = function (scope, handler)
                 {
-                    console.log("svc onDrop", scope);
                     scope.$on(FILE_DROP, function (event, message)
                     {
-                        console.log("svc onDrop scope.on");
                         handler(message);
                     });
                 };
 
                 this._onDrop = function (event)
                 {
-                    console.log("_drop", event);
-                    $rootScope.$broadcast(FILE_DROP, {});
+                    //console.log("_drop", event);
+                    //$rootScope.$broadcast(FILE_DROP, {});
                 }
 
                 this.onThumbnail = function (file, dataUrl)
@@ -133,7 +129,7 @@
                     var height = file.height;
                     var width = file.width;
 
-                    console.log("thumbnail", file, dataUrl, { "h": height, "w": width });
+                    //console.log("thumbnail", file, dataUrl, { "h": height, "w": width });
                     
                     if (file.accepted)
                     {
@@ -150,7 +146,7 @@
 
                 this.onSending = function (file, xhr, formData)
                 {
-                    console.log("before sending", file, xhr, formData);
+
                 };
 
                 this.onQueueComplete = function ()
@@ -166,7 +162,7 @@
                     {
                         var imgBase64 = files[i].imgBase64;
 
-                        console.log(i, "processQueue ", files, files[i]);
+                        console.log(i, "processQueue ");
 
                         popQueue(toProcessQueue, files[i].name);
                         inProgressQueue.push(files[i]);
@@ -228,7 +224,8 @@
 
                         img.onload = function ()
                         {
-                            inResizeQueue.push(file); console.log("inResizeQueue", toResizeQueue, inResizeQueue);
+                            inResizeQueue.push(file);
+                                console.log("inResizeQueue", toResizeQueue, inResizeQueue);
                             var canvas = document.createElement("canvas");
                             var context = canvas.getContext("2d");
                             var resized = resizeKeepAspectRatio({ height: 400, width: 600 }, { height: img.height, width: img.width });
@@ -238,7 +235,7 @@
                             //canvas.height = resized.height;
                             var subsampled = detectSubsampling(img);
 
-                            console.log(img.naturalWidth, img.naturalHeight, resized);
+                            console.log(img.naturalWidth, img.naturalHeight, resized.height, resized.width);
 
                             if (algorithm == "basic")
                             {
@@ -415,23 +412,27 @@
                 canvas.width = W2;
                 canvas.height = H2;
                 canvas.getContext("2d").putImageData(img2, 0, 0);
-            }
+            };
 
             function detectSubsampling(img)
             {
+                console.log("detectSubsampling");
+
                 var iw = img.naturalWidth;
                 var ih = img.naturalHeight;
-                if (iw * ih > 1024 * 1024) {
+                if (iw * ih > 1024 * 1024)
+                {
                     var canvas = document.createElement("canvas");
                     canvas.width = canvas.height = 1;
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(img, -iw + 1, 0);
                     return ctx.getImageData(0, 0, 1, 1).data[3] === 0;
                 }
-                else {
+                else
+                {
                     return false;
                 }
-            }
+            };
 
             function detectVerticalSquash(img)
             {
@@ -463,7 +464,7 @@
                 var ratio = (py / imgHeight);
                 console.log("ratio", ratio);
                 return (ratio === 0) ? 1 : ratio;
-            }
+            };
 
             // replacement for context.drawImage
             function drawImageIOSFix(context, img, sx, sy, sw, sh, dx, dy, dw, dh)
@@ -477,7 +478,7 @@
                 context.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio,
                     sw * vertSquashRatio, sh * vertSquashRatio,
                     dx, dy, dw, dh);
-            }
+            };
 
         }]);
 })();
