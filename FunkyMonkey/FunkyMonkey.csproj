@@ -237,6 +237,8 @@
     <Content Include="Scripts\app\services\ModalOptions.js" />
     <Content Include="Scripts\app\services\PeonService.js" />
     <Content Include="Scripts\app\services\Session.js" />
+    <Content Include="Scripts\blueimp\canvas-to-blob.min.js" />
+    <Content Include="Scripts\blueimp\load-image.all.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dropzone-4.0.0\dropzone-amd-module.js" />

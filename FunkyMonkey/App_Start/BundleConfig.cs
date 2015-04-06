@@ -43,7 +43,9 @@ namespace FunkyMonkey
                 .Include("~/Scripts/bootstrap.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/jcrop/jquery.jcrop.js")
-                .Include("~/Scripts/dropzone-4.0.0/dropzone.js"));
+                .Include("~/Scripts/dropzone-4.0.0/dropzone.js")
+                .Include("~/Scripts/blueimp/load-image.all.js")
+                .Include("~/Scripts/blueimp/canvas-to-blob.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/bootstrap.css")

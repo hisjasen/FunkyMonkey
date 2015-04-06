@@ -134,8 +134,14 @@
                     if (file.accepted)
                     {
                         console.log("resize algorithm", _this.algorithm);
-
-                        resizeImage(file, _this.algorithm);
+                        if (_this.algorithm == "blueimp")
+                        {
+                            resizeImageBlueImp(file);
+                        }
+                        else
+                        {
+                            resizeImage(file, _this.algorithm);
+                        }
                         //_this.resizedFiles.push(file);
                     }
                     else
@@ -222,6 +228,8 @@
                         var img = new Image();
                         img.src = fileReader.result;
 
+                        console.log("resizeImage", x, img.src);
+
                         img.onload = function ()
                         {
                             inResizeQueue.push(file);
@@ -244,7 +252,7 @@
                                 context.drawImage(img, 0, 0, img.width, img.height);
                                 resample_hermite(canvas, canvas.width, canvas.height, resized.width, resized.height);
                             }
-                            else
+                            else if (algorithm == "ios")
                             {
                                 canvas.width = resized.width;
                                 canvas.height = resized.height;
@@ -285,6 +293,48 @@
                         //context.drawImage(img, 0, 0, w, h);
                     };
                     fileReader.readAsDataURL(file);
+                };
+
+                function resizeImageBlueImp(file)
+                {
+                    var options = {
+                        maxWidth: 600,
+                        maxHeight: 400,
+                        contain: true,
+                        canvas: true,
+                        orientation: true
+                    };
+                    var loadingImage = loadImage(file, function (canvas)
+                    {
+                        $("#resized").append($(canvas));
+
+                        var dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+
+                        var blob = dataURItoBlob(dataUrl);
+                        var formData = new FormData();  // FormData is an add-only container
+                        formData.append("imageBlob", blob);
+
+                        file.imgBase64 = dataUrl;
+                        //console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
+
+                        $("#blob").val(dataUrl);
+
+                        popQueue(inResizeQueue, file.name);
+                        popQueue(toResizeQueue, file.name);
+
+                        if (toResizeQueue.length <= 0 && inResizeQueue.length <= 0)
+                        {
+                            console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
+
+                            $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, { subsampled: false });
+                        }
+
+                        _this.resizedFiles.push(file);
+                        toProcessQueue.push(file);
+
+                        canvas = null;
+                    }, options);
+
                 };
 
 
