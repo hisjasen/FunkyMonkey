@@ -261,7 +261,7 @@
                             }
 
 
-                            $("#resized").append($(canvas));
+                            $("#resized").append(canvas);
                             
                             var dataUrl = canvas.toDataURL("image/jpeg", 1.0);
 
@@ -298,42 +298,54 @@
                 function resizeImageBlueImp(file)
                 {
                     var options = {
-                        maxWidth: 600,
-                        maxHeight: 400,
-                        contain: true,
-                        canvas: true,
-                        orientation: true
+                        "maxWidth": 600,
+                        "maxHeight": 400,
+                        "contain": true,
+                        "canvas": true,
+                        "orientation": ""
                     };
-                    var loadingImage = loadImage(file, function (canvas)
+                    var metaOptions = {};
+
+                    loadImage.parseMetaData(file, function (data)
                     {
-                        $("#resized").append($(canvas));
-
-                        var dataUrl = canvas.toDataURL("image/jpeg", 1.0);
-
-                        var blob = dataURItoBlob(dataUrl);
-                        var formData = new FormData();  // FormData is an add-only container
-                        formData.append("imageBlob", blob);
-
-                        file.imgBase64 = dataUrl;
-                        //console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
-
-                        $("#blob").val(dataUrl);
-
-                        popQueue(inResizeQueue, file.name);
-                        popQueue(toResizeQueue, file.name);
-
-                        if (toResizeQueue.length <= 0 && inResizeQueue.length <= 0)
+                        if (data.exif)
                         {
-                            console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
-
-                            $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, { subsampled: false });
+                            console.log("orientation", data);
+                            options.orientation = data.exif.get("Orientation");
                         }
+                        loadImage(file, function (canvas)
+                        {
+                            console.log("loadImage", canvas);
+                            $("#resized").append(canvas);
 
-                        _this.resizedFiles.push(file);
-                        toProcessQueue.push(file);
+                            var dataUrl = canvas.toDataURL("image/jpeg", 1.0);
 
-                        canvas = null;
-                    }, options);
+                            var blob = dataURItoBlob(dataUrl);
+                            var formData = new FormData();  // FormData is an add-only container
+                            formData.append("imageBlob", blob);
+
+                            file.imgBase64 = dataUrl;
+                            //console.log("resizeImage", file, dataUrl, formData["imageBlob"]);
+
+                            $("#blob").val(dataUrl);
+
+                            popQueue(inResizeQueue, file.name);
+                            popQueue(toResizeQueue, file.name);
+
+                            if (toResizeQueue.length <= 0 && inResizeQueue.length <= 0)
+                            {
+                                console.log("Ready to upload", toResizeQueue, inResizeQueue, _this.resizedFiles);
+
+                                $rootScope.$broadcast(RESIZE_QUEUE_COMPLETE, { subsampled: false });
+                            }
+
+                            _this.resizedFiles.push(file);
+                            toProcessQueue.push(file);
+
+                            canvas = null;
+
+                        }, options);
+                    }, metaOptions);
 
                 };
 
