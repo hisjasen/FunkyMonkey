@@ -33,12 +33,12 @@
         $urlRouterProvider.otherwise('/app/home');
 
         $locationProvider.html5Mode({
-            enabled: false,
+            enabled: true,
             requireBase: true
         });
 
         $stateProvider.state("root", {
-            url: "",
+            url: "/FunkyMonkey/app",
             abstract: true,
             onEnter: function () { console.log("root"); }
         });
@@ -84,6 +84,19 @@
                 }
             },
             onEnter: function () { console.log("root.peons"); }
+        });
+
+        $stateProvider.state("root.overlords", {
+            parent: "root",
+            url: "/overlords/home",
+            views: {
+                "contentContainer@": {
+                    //templateUrl: "FunkyMonkey/Overlords/Overlords/Index",
+                    templateUrl: "FunkyMonkey/Overlords/Home/Index",
+                    controller: "OverlordController as overlordController"
+                }
+            },
+            onEnter: function () { console.log("root.overlords"); }
         });
 
         console.log("AppConfig", AppConfig);

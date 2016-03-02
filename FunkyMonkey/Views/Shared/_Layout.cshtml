@@ -25,12 +25,16 @@
                     <li><a ui-sref="root.home">Home</a></li>
                     <li><a ui-sref="root.admin">Admin</a></li>
                     <li><a ui-sref="root.peons">Peons</a></li>
+                    <li><a ui-sref="root.overlords">Overlords</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content" id="contentContainer" ui-view="contentContainer">
         @RenderBody()
+    </div>
+    <div class="footer">
+        @RenderSection("footer", required: false)
     </div>
 
     @Scripts.Render("~/bundles/jquery")
@@ -39,6 +43,7 @@
     @Scripts.Render("~/bundles/lib")
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/app")
+    @*Scripts.Render("~/bundles/ts")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>

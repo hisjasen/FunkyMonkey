@@ -1,0 +1,10 @@
+﻿<h3>{{overlordController.title}}</h3>
+
+<form>
+    Name: <input name="Name" type="text" ng-model="overlordController.model.Name" ng-change="overlordController.titleChanged()" />
+    Id: <input name="Id" type="text" ng-model="overlordController.model.Id" ng-change="" />
+    <p>
+    Files: <input name="Images" type="file" multiple="multiple" onchange="angular.element(this).scope().overlordController.fileChanged(this.files)" />
+    </p>
+    <button ng-click="overlordController.upload()">Upload</button>
+</form>

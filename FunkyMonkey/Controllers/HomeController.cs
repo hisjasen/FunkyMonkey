@@ -81,5 +81,16 @@ namespace FunkyMonkey.Controllers
         {
             return Json(new { msg = msg });
         }
+
+        public ActionResult Monkey()
+        {
+            var model = new Monkey
+            {
+                UserOption = new UserOption { Date = DateTime.Now, Rank = 10 },
+                Peon = new Peon { Id = 1, Name = "Peter", Rank = 0, Title = "Underqualified" }
+            };
+
+            return View(model);
+        }
     }
 }

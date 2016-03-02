@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
+using TypeScriptBundleTransform;
 
 namespace FunkyMonkey
 {
@@ -46,6 +47,9 @@ namespace FunkyMonkey
                 .Include("~/Scripts/dropzone-4.0.0/dropzone.js")
                 .Include("~/Scripts/blueimp/load-image.all.js")
                 .Include("~/Scripts/blueimp/canvas-to-blob.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/ts")
+            //    .IncludeDirectory("~/Scripts/ts", "*.ts"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/bootstrap.css")

@@ -3,6 +3,7 @@
 <span ng-bind="homeController.date | jsonDate: 'yyyy-MM-dd HH:mm:ss'"></span>
 </div>
 
+<div class="label label-info">{{homeController.id}}</div>
 <div class="">@Html.ApplicationVersion()</div>
 
 @{
@@ -10,7 +11,7 @@
 }
 
 @Html.DisplayFor(m => foo.name)
-
+@Html.TextBoxFor(m => foo.name, new { ng_model = "foo" })
 <script>
     function foo()
     {
